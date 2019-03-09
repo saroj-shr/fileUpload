@@ -1,12 +1,9 @@
-const PATH = 'data/images.json';
+const PATH = 'data/images';
 const fs = require('fs');
 
 module.exports = class Images{
-    constructor(fileName, filePath, fileType){
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.path = filePath;
-        this.time = Date.now();
+    constructor(filePath){ 
+        this.path = filePath;        
         fs.access(PATH, fs.constants.F_OK, (err) => {
             if(err){
                 fs.writeFile(PATH,"", (err) => {
@@ -17,7 +14,7 @@ module.exports = class Images{
     }
 
     addNewEntry(){
-        return fs.appendFile(PATH, JSON.stringify(this), (err) =>{
+        return fs.appendFile(PATH, this.path+'\n', (err) =>{
            if(err){
                console.error(err);
                return false;
@@ -25,9 +22,10 @@ module.exports = class Images{
         });
     }
 
-    readAllEntry(){
-        return fs.readFile(PATH, (err, data)=>{
-            if(!err) return JSON.stringify(data);
-        });               
+    readAllEntry(){        
+        return fs.readFile(PATH, (err, data)=>{                       
+            // console.log(data.toString());
+           return data.toString();            
+        });          
     }
 }

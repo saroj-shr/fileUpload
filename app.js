@@ -1,6 +1,8 @@
 const PORT = 5000;
+const PATH = 'data/images';
 
 const path = require('path');
+const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,7 +18,7 @@ app.set('views');
 
 // use body-parser 
 app.use(bodyParser.urlencoded({
-    extended:false
+    extended: false
 }));
 
 // static path
@@ -47,28 +49,30 @@ app.use(multer({
 
 // routes
 
-app.get('/', (req, res ) => {
-    const image = new Image();
-    let data = image.readAllEntry();
-    if(!data) data = null;
-    res.render('index',{
-        imageData: data
+app.get('/', (req, res) => {
+   
+    fs.readFile(PATH,'utf8',(err, data)=>{                       
+        
+       data = data.split('\n');    
+       if(err) console.error(err);
+       res.render('index',{
+           images: data
+       });
+       
     });
+
 });
 
 
-app.post('/', (req, res ) => {
-    
-    const fileType = req.file.mimetype;
-    const filePath  = req.file.path.slice(6);
-    const fileName = req.body.fileName;    
+app.post('/', (req, res) => {
 
-    const image = new Image( fileName, filePath, fileType);    
-    if(!image.addNewEntry()) res.redirect('/');    
+    const filePath = req.file.path.slice(6);
+    const image = new Image(filePath);
+    if (!image.addNewEntry()) res.redirect('/');
 
 })
 
-app.use((req, res ) => {
+app.use((req, res) => {
     res.status(404).render('error');
 });
 
