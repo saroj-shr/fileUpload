@@ -1,4 +1,4 @@
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const PATH = 'data/images';
 
 const path = require('path');
@@ -7,10 +7,14 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 const Image = require('./model/Images');
 
 const app = express();
+
 
 // view engine
 app.set('view engine', 'ejs');
@@ -19,6 +23,19 @@ app.set('views');
 // use body-parser 
 app.use(bodyParser.urlencoded({
     extended: false
+}));
+
+// helmet
+app.use(helmet());
+// compression
+app.use(compression());
+//morgan
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, 'access.log'),
+    {flags: 'a'}
+);
+app.use(morgan('combined',{
+    stream: accessLogStream
 }));
 
 // static path
