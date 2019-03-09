@@ -19,6 +19,8 @@
   "homepage": "https://github.com/sarojshrestha101/fileUpload#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "csv-parser": "^2.2.0",
+    "csv-writer": "^1.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "multer": "^1.4.1"

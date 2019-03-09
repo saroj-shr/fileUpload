@@ -1,11 +1,12 @@
 const PORT = 5000;
 
 const path = require('path');
-const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+
+const Image = require('./model/Images');
 
 const app = express();
 
@@ -46,18 +47,31 @@ app.use(multer({
 
 // routes
 
-app.get('/', (req, res, next) => {
-    res.render('index');
+app.get('/', (req, res ) => {
+    const image = new Image();
+    let data = image.readAllEntry();
+    if(!data) data = null;
+    res.render('index',{
+        imageData: data
+    });
 });
 
-app.post('/', (req, res, next) => {
+
+app.post('/', (req, res ) => {
     
-    res.redirect('/');
+    const fileType = req.file.mimetype;
+    const filePath  = req.file.path.slice(6);
+    const fileName = req.body.fileName;    
+
+    const image = new Image( fileName, filePath, fileType);    
+    if(!image.addNewEntry()) res.redirect('/');    
+
 })
 
-app.use((req, res, next) => {
+app.use((req, res ) => {
     res.status(404).render('error');
 });
 
 // listen
+console.log(`Server listening at ${PORT}`);
 app.listen(PORT);
