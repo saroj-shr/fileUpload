@@ -1,6 +1,8 @@
 const PORT = 5000;
 
 const path = require('path');
+const fs = require('fs');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
@@ -19,7 +21,7 @@ app.use(bodyParser.urlencoded({
 // static path
 app.use(express.static(path.join(__dirname, 'public')));
 
-// multer optins
+// multer
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/images');
@@ -42,12 +44,20 @@ app.use(multer({
     fileFilter: fileFilter
 }).single('file'));
 
+// routes
+
 app.get('/', (req, res, next) => {
     res.render('index');
 });
+
+app.post('/', (req, res, next) => {
+    
+    res.redirect('/');
+})
 
 app.use((req, res, next) => {
     res.status(404).render('error');
 });
 
+// listen
 app.listen(PORT);
