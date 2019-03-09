@@ -1,0 +1,29 @@
+{
+  "name": "fileupload",
+  "version": "1.0.0",
+  "description": "Small repo for testing file upload in traditional server ",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarojshrestha101/fileUpload.git"
+  },
+  "author": "Saroj Shrestha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarojshrestha101/fileUpload/issues"
+  },
+  "homepage": "https://github.com/sarojshrestha101/fileUpload#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "multer": "^1.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1"
+  }
+}
